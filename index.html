@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form action="#">
+        <input type="file" id="file"/>
+        <input type="submit" value="submit">
+    </form>
+
+    <script type="text/javascript">
+        function formatDate(date){
+            return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`
+        }
+
+        let fileUpload = document.querySelector('#file');
+        fileUpload.addEventListener('change',() => {
+            let files = fileUpload.files;
+            console.log(files[0]);
+            // console.log(`修改时间为${formatDate(new Date(files[0].lastModified))}`)
+            // console.log(`文件名称为${files[0].filename}`);
+        })
+    </script>
+</body>
+</html>
