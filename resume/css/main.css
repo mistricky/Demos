@@ -1,0 +1,22 @@
+.progressFrame {
+  width: 300px;
+  height: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background: #cecece;
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.progress {
+  width: 0px;
+  height: 9.5px;
+  background: salmon;
+}
+
+#beforehand {
+  display: block;
+  margin-top: 10px;
+  width: 300px;
+}

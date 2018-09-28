@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./css/main.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <form action="#">
+    <input multiple type="file" id="file" />
+    <button type="submit">submit</button>
+    <button id="pause">pause</button>
+  </form>
+  <div id="progressBarContainer"></div>
+  <img src="" alt="" id="beforehand">
+  <script src="./common/find.js"></script>
+  <script src="./common/ele.js"></script>
+  <script src="./common/progress-store.js"></script>
+  <script src="./utils/build-progress.js"></script>
+  <script src="./utils/append-progress.js"></script>
+  <script src="./utils/build-file-reader.js"></script>
+  <script src="./utils/reader.js"></script>
+  <script src="./utils/file-slice.js"></script>
+  <script>
+
+    uploadInput.on("change", async () => {
+      let files = uploadInput.ele.files
+
+      for (let file of files) {
+        let { progressContainer, progress } = buildProgress(file)
+        let dataSlices = fileSlicer(file)
+        let fileReader = buildFileReader(progress, file, dataSlices)
+
+        appendProgress(progressContainer)
+        reader(fileReader, file, 0, dataSlices)
+      }
+    })
+
+
+  </script>
+</body>
+
+</html>
