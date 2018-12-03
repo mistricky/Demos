@@ -1,103 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <style>
-        .progressFrame{
-            width: 300px;
-            height: 10px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            background: #cecece;
-            margin-top: 10px;
-            overflow: hidden;
-            border-radius: 10px;
-        }
+      .progressFrame {
+        width: 300px;
+        height: 10px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        background: #cecece;
+        margin-top: 10px;
+        overflow: hidden;
+        border-radius: 10px;
+      }
 
-        .progress{
-            width: 0px;
-            height: 9.5px;
-            background: salmon;
-            
-        }
+      .progress {
+        width: 0px;
+        height: 9.5px;
+        background: salmon;
+      }
 
-        #beforehand{
-            display: block;
-            margin-top: 10px;
-            width: 300px;
-        }
+      #beforehand {
+        display: block;
+        margin-top: 10px;
+        width: 300px;
+      }
+
+      .btn {
+        border-radius: 5px;
+      }
+
+      #file {
+        display: none;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <form action="#">
-        <input type="file" id="file"/>
-        <input type="submit" value="submit">
+      <button class="btn">Hahah</button> <input type="file" id="file" />
+      <input type="submit" value="submit" />
     </form>
-    <div class="progressFrame">
-        <div class="progress"></div>
-    </div>
-    <img src="" alt="" id="beforehand">
+    <div class="progressFrame"><div class="progress"></div></div>
+    <img src="" alt="" id="beforehand" />
     <script type="text/javascript">
-        function formatDate(date){
-            return `${date.getFullYear()}年${date.getMonth()}月${date.getDate()}日`
+      document.querySelector(".btn").addEventListener("click", () => {
+        document.querySelector("#file").click();
+      });
+
+      function formatDate(date) {
+        return `${date.getFullYear()}年${date.getMonth()}月${date.getDate()}日`;
+      }
+
+      let fileUpload = document.querySelector("#file");
+      let fileReader = new FileReader();
+      let mimeRegex = /^image\/.*$/;
+      let file;
+      let viewObj = {
+        modifyDate: null,
+        filename: null,
+        size: null
+      };
+
+      //进度监听
+      fileReader.addEventListener(
+        "progress",
+        e =>
+          (document.querySelector(".progress").style.width =
+            (e.loaded / e.total) * 100 + "%")
+      );
+
+      //读取中断
+      fileReader.addEventListener("abort", () => console.log("读取中断"));
+
+      //读取错误
+      fileReader.addEventListener("error", err => {
+        throw err;
+      });
+
+      //读取开始
+      fileReader.addEventListener("loadstart", () => console.log("读取开始"));
+
+      //读取结束
+      fileReader.addEventListener("loadend", () => {
+        console.log("读取结束");
+        document.querySelector("#beforehand").src = fileReader.result;
+      });
+
+      //文件选择被更改
+      fileUpload.addEventListener("change", () => {
+        //获取文件对象
+        file = fileUpload.files[0];
+        if (!mimeRegex.test(file.type)) {
+          alert("file type must be a image");
+          return;
         }
-        
-        let fileUpload = document.querySelector('#file');
-        let fileReader = new FileReader();
-        let mimeRegex = /^image\/.*$/;
-        let file;
-        let viewObj = {
-            modifyDate:null,
-            filename:null,
-            size:null
-        };
 
-        //进度监听
-        fileReader.addEventListener('progress',e => document.querySelector('.progress').style.width = (e.loaded/e.total) * 100 + '%')
+        //显示图片
+        if (file) fileReader.readAsDataURL(file);
 
-        //读取中断
-        fileReader.addEventListener('abort',() => console.log("读取中断"))
+        viewObj.modifyDate = formatDate(file.lastModifiedDate);
+        viewObj.filename = file.name;
+        viewObj.size = file.size;
 
-        //读取错误
-        fileReader.addEventListener('error',err => {throw err})
-
-        //读取开始
-        fileReader.addEventListener('loadstart',() => console.log('读取开始'))
-
-        //读取结束
-        fileReader.addEventListener('loadend',() => {
-            console.log('读取结束')
-            document.querySelector("#beforehand").src = fileReader.result
-        })
-
-        //文件选择被更改
-        fileUpload.addEventListener('change',() => {
-            //获取文件对象
-            file = fileUpload.files[0];
-            if(!mimeRegex.test(file.type)) {
-                alert("file type must be a image");
-                return;
-            }
-
-            //显示图片
-            if(file) fileReader.readAsDataURL(file);
-
-            viewObj.modifyDate = formatDate(file.lastModifiedDate);
-            viewObj.filename = file.name;
-            viewObj.size = file.size;
-
-            let p;
-            for(let prop in viewObj){
-                p = document.createElement('p');
-                p.innerText = `${prop} : ${viewObj[prop]}`;
-                document.querySelector('body').appendChild(p);
-            }
-        })
-        
+        let p;
+        for (let prop in viewObj) {
+          p = document.createElement("p");
+          p.innerText = `${prop} : ${viewObj[prop]}`;
+          document.querySelector("body").appendChild(p);
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
