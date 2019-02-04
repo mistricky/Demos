@@ -1,5 +1,6 @@
 import { HotModuleReplacementPlugin } from "webpack";
 import * as Path from "path";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 export default {
   context: Path.resolve("./src"),
@@ -32,5 +33,5 @@ export default {
   resolve: {
     extensions: [".jsx", ".js", ".json"]
   },
-  plugins: [new HotModuleReplacementPlugin()]
+  plugins: [new HotModuleReplacementPlugin(), new BundleAnalyzerPlugin()]
 };
