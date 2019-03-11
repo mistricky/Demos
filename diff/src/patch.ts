@@ -1,0 +1,6 @@
+export const enum OPERATION {
+  REMOVE,
+  TEXT_CHANGE,
+  ATTR_CHANGE,
+  REPLACE
+}
